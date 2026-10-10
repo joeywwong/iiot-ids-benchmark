@@ -1,0 +1,27 @@
+# CLI flags override these settings. 0 means all rows; default is a uniform subset.
+seed: 42
+max_rows: 100000
+rf_trees: 100
+if_trees: 100
+n_jobs: 1
+target_fpr: 0.01
+validation_fraction: 0.2
+test_fraction: 0.2
+split: auto
+group_column: null
+importance_rows: 1000
+importance_repeats: 3
+timing_repeats: 3
+# Vocabulary is checked against the input, never inferred as "anything else is attack".
+# Override only after inspecting the original file and documenting label semantics.
+label_mapping:
+  normal: 0
+  normal traffic: 0
+  dos: 1
+  dos traffic: 1
+  reconnaissance: 1
+  reconnaissance traffic: 1
+  command injection: 1
+  command injection traffic: 1
+  backdoor: 1
+  backdoor traffic: 1
