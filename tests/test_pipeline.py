@@ -7,6 +7,7 @@ import pytest
 from iiot_ids_benchmark.cli import main
 from iiot_ids_benchmark.experiment import Config
 from iiot_ids_benchmark.models import attack_scores, fit_model, make_models
+from iiot_ids_benchmark.reporting import OUTPUT_FILES
 
 
 def test_preprocessing_fit_only_training_and_if_normal_only():
@@ -116,6 +117,83 @@ def test_config_override_and_unknown_keys(synthetic_csv, tmp_path):
             ]
         )
     assert exc.value.code == 2
+
+
+@pytest.mark.parametrize("mapping", ["[]", "0", "{normal: true}"])
+def test_cli_rejects_invalid_custom_label_mapping(synthetic_csv, tmp_path, capsys, mapping):
+    config = tmp_path / "invalid-mapping.yaml"
+    config.write_text(f"label_mapping: {mapping}\n", encoding="utf-8")
+    with pytest.raises(SystemExit) as exc:
+        main(
+            [
+                "run",
+                "--data",
+                str(synthetic_csv),
+                "--config",
+                str(config),
+                "--output",
+                str(tmp_path / "invalid-mapping-output"),
+            ]
+        )
+    assert exc.value.code == 2
+    assert "label_mapping must explicitly map" in capsys.readouterr().err
+
+
+def test_abbreviated_synthetic_cli_with_yaml_defaults(abbreviated_synthetic_csv, tmp_path):
+    from pathlib import Path
+
+    config_path = Path(__file__).resolve().parents[1] / "configs" / "default.yaml"
+    output = tmp_path / "abbreviated-synthetic-reports"
+    main(
+        [
+            "run",
+            "--data",
+            str(abbreviated_synthetic_csv),
+            "--output",
+            str(output),
+            "--config",
+            str(config_path),
+            "--data-kind",
+            "synthetic",
+            "--max-rows",
+            "0",
+            "--rf-trees",
+            "8",
+            "--if-trees",
+            "8",
+            "--importance-repeats",
+            "1",
+            "--importance-rows",
+            "100",
+            "--timing-repeats",
+            "1",
+        ]
+    )
+    assert set(p.name for p in output.iterdir()) == OUTPUT_FILES
+    manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["data_kind"] == "synthetic"
+    assert manifest["config"]["rf_trees"] == 8  # CLI overrides YAML defaults.
+    assert manifest["dataset"]["observed_counts"] == {
+        "observations": 600,
+        "normal": 480,
+        "attack": 120,
+    }
+    assert set(manifest["dataset"]["file_traffic_counts"]) == {
+        "normal",
+        "DoS",
+        "Reconn",
+        "CommInj",
+        "Backdoor",
+    }
+    metrics = pd.read_csv(output / "metrics.csv")
+    assert set(metrics["data_kind"]) == {"synthetic"}
+    assert set(metrics["n_test"]) == {120}
+    assert (metrics["validation_fpr"] <= 0.01).all()
+    per_attack = pd.read_csv(output / "per_attack_recall.csv")
+    assert len(per_attack) == 12
+    assert set(per_attack["attack"]) == {"DoS", "Reconn", "CommInj", "Backdoor"}
+    assert (per_attack["test_count"] > 0).all()
+    assert per_attack.groupby("model")["test_count"].sum().eq(24).all()
 
 
 @pytest.mark.parametrize(

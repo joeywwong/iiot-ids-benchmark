@@ -35,3 +35,17 @@ def synthetic_csv(tmp_path):
     path = tmp_path / "synthetic-fixture.csv"
     synthetic_frame().to_csv(path, index=False)
     return path
+
+
+@pytest.fixture
+def abbreviated_synthetic_csv(tmp_path):
+    """Five original-style labels, still entirely fabricated test observations."""
+    frame = synthetic_frame()
+    labels = np.array(
+        ["normal"] * 480 + ["DoS"] * 60 + ["Reconn"] * 40 + ["CommInj"] * 10 + ["Backdoor"] * 10
+    )
+    np.random.default_rng(7).shuffle(labels)
+    frame["Traffic"] = labels
+    path = tmp_path / "synthetic-abbreviated-fixture.csv"
+    frame.to_csv(path, index=False)
+    return path

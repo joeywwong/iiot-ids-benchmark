@@ -1,0 +1,1196 @@
+{
+  "manifest": {
+    "created_utc": "2026-10-10T17:28:42.500631+00:00",
+    "data_kind": "wustl",
+    "config": {
+      "seed": 42,
+      "max_rows": 100000,
+      "rf_trees": 100,
+      "if_trees": 100,
+      "n_jobs": 1,
+      "target_fpr": 0.01,
+      "validation_fraction": 0.2,
+      "test_fraction": 0.2,
+      "split": "auto",
+      "group_column": null,
+      "importance_rows": 1000,
+      "importance_repeats": 3,
+      "timing_repeats": 3,
+      "label_mapping": {
+        "normal": 0,
+        "normal traffic": 0,
+        "dos": 1,
+        "dos traffic": 1,
+        "reconn": 1,
+        "reconnaissance": 1,
+        "reconnaissance traffic": 1,
+        "comminj": 1,
+        "command injection": 1,
+        "command injection traffic": 1,
+        "backdoor": 1,
+        "backdoor traffic": 1
+      }
+    },
+    "dataset": {
+      "filename": "wustl_iiot_2021.csv",
+      "sha256": "f897b24578cc6fdeb3e7a0e9ff63efd5bbdc926a545abbda725e0dbb348c6bca",
+      "size_bytes": 409800698,
+      "rows_in_file": 1194464,
+      "rows_selected": 100000,
+      "full_dataset": false,
+      "sampling": "uniform random without replacement",
+      "sampling_balanced": false,
+      "file_traffic_counts": {
+        "normal": 1107448,
+        "DoS": 78305,
+        "Reconn": 8240,
+        "CommInj": 259,
+        "Backdoor": 212
+      },
+      "selected_traffic_counts": {
+        "normal": 92743,
+        "DoS": 6555,
+        "Reconn": 664,
+        "CommInj": 20,
+        "Backdoor": 18
+      },
+      "categories_missing_from_sample": [],
+      "observed_counts": {
+        "observations": 1194464,
+        "normal": 1107448,
+        "attack": 87016
+      },
+      "author_reported_counts": {
+        "observations": 1194464,
+        "normal": 1107448,
+        "attack": 87016
+      },
+      "count_discrepancies": {},
+      "observed_column_count": 49,
+      "author_reported_feature_count": 41,
+      "label_mapping": {
+        "normal": 0,
+        "normal traffic": 0,
+        "dos": 1,
+        "dos traffic": 1,
+        "reconn": 1,
+        "reconnaissance": 1,
+        "reconnaissance traffic": 1,
+        "comminj": 1,
+        "command injection": 1,
+        "command injection traffic": 1,
+        "backdoor": 1,
+        "backdoor traffic": 1
+      },
+      "observed_dtypes": {
+        "StartTime": "string (CSV input)",
+        "LastTime": "string (CSV input)",
+        "SrcAddr": "string (CSV input)",
+        "DstAddr": "string (CSV input)",
+        "Mean": "string (CSV input)",
+        "Sport": "string (CSV input)",
+        "Dport": "string (CSV input)",
+        "SrcPkts": "string (CSV input)",
+        "DstPkts": "string (CSV input)",
+        "TotPkts": "string (CSV input)",
+        "DstBytes": "string (CSV input)",
+        "SrcBytes": "string (CSV input)",
+        "TotBytes": "string (CSV input)",
+        "SrcLoad": "string (CSV input)",
+        "DstLoad": "string (CSV input)",
+        "Load": "string (CSV input)",
+        "SrcRate": "string (CSV input)",
+        "DstRate": "string (CSV input)",
+        "Rate": "string (CSV input)",
+        "SrcLoss": "string (CSV input)",
+        "DstLoss": "string (CSV input)",
+        "Loss": "string (CSV input)",
+        "pLoss": "string (CSV input)",
+        "SrcJitter": "string (CSV input)",
+        "DstJitter": "string (CSV input)",
+        "SIntPkt": "string (CSV input)",
+        "DIntPkt": "string (CSV input)",
+        "Proto": "string (CSV input)",
+        "Dur": "string (CSV input)",
+        "TcpRtt": "string (CSV input)",
+        "IdleTime": "string (CSV input)",
+        "Sum": "string (CSV input)",
+        "Min": "string (CSV input)",
+        "Max": "string (CSV input)",
+        "sDSb": "string (CSV input)",
+        "sTtl": "string (CSV input)",
+        "dTtl": "string (CSV input)",
+        "sIpId": "string (CSV input)",
+        "dIpId": "string (CSV input)",
+        "SAppBytes": "string (CSV input)",
+        "DAppBytes": "string (CSV input)",
+        "TotAppByte": "string (CSV input)",
+        "SynAck": "string (CSV input)",
+        "RunTime": "string (CSV input)",
+        "sTos": "string (CSV input)",
+        "SrcJitAct": "string (CSV input)",
+        "DstJitAct": "string (CSV input)",
+        "Traffic": "string (CSV input)",
+        "Target": "string (CSV input)"
+      }
+    },
+    "features": [
+      "Mean",
+      "Sport",
+      "Dport",
+      "SrcPkts",
+      "DstPkts",
+      "TotPkts",
+      "DstBytes",
+      "SrcBytes",
+      "TotBytes",
+      "SrcLoad",
+      "DstLoad",
+      "Load",
+      "SrcRate",
+      "DstRate",
+      "Rate",
+      "SrcLoss",
+      "DstLoss",
+      "Loss",
+      "pLoss",
+      "SrcJitter",
+      "DstJitter",
+      "SIntPkt",
+      "DIntPkt",
+      "Proto",
+      "Dur",
+      "TcpRtt",
+      "Sum",
+      "Min",
+      "Max",
+      "sDSb",
+      "sTtl",
+      "dTtl",
+      "SAppBytes",
+      "DAppBytes",
+      "TotAppByte",
+      "SynAck",
+      "sTos",
+      "SrcJitAct",
+      "DstJitAct"
+    ],
+    "feature_review": {
+      "review_partition": "training only",
+      "excluded_columns": {
+        "StartTime": "author-identified identifier/time field or Traffic target",
+        "LastTime": "author-identified identifier/time field or Traffic target",
+        "SrcAddr": "author-identified identifier/time field or Traffic target",
+        "DstAddr": "author-identified identifier/time field or Traffic target",
+        "IdleTime": "possible identifier/timestamp; conservative exclusion",
+        "sIpId": "author-identified identifier/time field or Traffic target",
+        "dIpId": "author-identified identifier/time field or Traffic target",
+        "RunTime": "possible identifier/timestamp; conservative exclusion",
+        "Traffic": "author-identified identifier/time field or Traffic target",
+        "Target": "split group or additional target-like column"
+      },
+      "feature_diagnostics": {
+        "Mean": {
+          "training_unique_values": 6,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Sport": {
+          "training_unique_values": 18975,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Dport": {
+          "training_unique_values": 417,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcPkts": {
+          "training_unique_values": 151,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstPkts": {
+          "training_unique_values": 53,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "TotPkts": {
+          "training_unique_values": 151,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstBytes": {
+          "training_unique_values": 64,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcBytes": {
+          "training_unique_values": 324,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "TotBytes": {
+          "training_unique_values": 353,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcLoad": {
+          "training_unique_values": 15466,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstLoad": {
+          "training_unique_values": 15510,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Load": {
+          "training_unique_values": 17671,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcRate": {
+          "training_unique_values": 15205,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstRate": {
+          "training_unique_values": 13559,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Rate": {
+          "training_unique_values": 15767,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcLoss": {
+          "training_unique_values": 15,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstLoss": {
+          "training_unique_values": 20,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Loss": {
+          "training_unique_values": 24,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "pLoss": {
+          "training_unique_values": 44,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcJitter": {
+          "training_unique_values": 56927,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstJitter": {
+          "training_unique_values": 54002,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SIntPkt": {
+          "training_unique_values": 15069,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DIntPkt": {
+          "training_unique_values": 13955,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Proto": {
+          "training_unique_values": 7,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Dur": {
+          "training_unique_values": 15446,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "TcpRtt": {
+          "training_unique_values": 1721,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "IdleTime": {
+          "training_unique_values": 200,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Sum": {
+          "training_unique_values": 15425,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Min": {
+          "training_unique_values": 15425,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "Max": {
+          "training_unique_values": 15425,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "sDSb": {
+          "training_unique_values": 2,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "sTtl": {
+          "training_unique_values": 252,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "dTtl": {
+          "training_unique_values": 3,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SAppBytes": {
+          "training_unique_values": 186,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DAppBytes": {
+          "training_unique_values": 46,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "TotAppByte": {
+          "training_unique_values": 210,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SynAck": {
+          "training_unique_values": 1592,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "RunTime": {
+          "training_unique_values": 15425,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "sTos": {
+          "training_unique_values": 2,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "SrcJitAct": {
+          "training_unique_values": 2838,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        },
+        "DstJitAct": {
+          "training_unique_values": 227,
+          "training_missing": 0,
+          "training_nonfinite_numeric": 0,
+          "numeric_on_training": true
+        }
+      },
+      "warnings": [],
+      "caveat": "Heuristic review cannot eliminate all leakage or certify inference availability. Flow aggregates require completed flows; inspect unexpected columns before claims."
+    },
+    "split": {
+      "requested_strategy": "auto",
+      "warnings": [
+        "Chronological split unavailable: timestamps incomplete, ambiguous, or not valid flow intervals",
+        "Row-level splitting may share related sessions/near-duplicates and inflate metrics"
+      ],
+      "time_assessment": {
+        "start_parse_fraction": 1.0,
+        "end_parse_fraction": 1.0,
+        "unique_start_times": 24737,
+        "complete_ordered_intervals": false,
+        "group_assessment": "No documented capture/session ID; addresses are attack-specific"
+      },
+      "stratification": "Traffic",
+      "strategy": "row",
+      "purged_rows": 0,
+      "traffic_counts": {
+        "train": {
+          "normal": 55646,
+          "DoS": 3933,
+          "Reconn": 398,
+          "CommInj": 12,
+          "Backdoor": 11
+        },
+        "validation": {
+          "normal": 18548,
+          "DoS": 1311,
+          "Reconn": 133,
+          "CommInj": 4,
+          "Backdoor": 4
+        },
+        "test": {
+          "normal": 18549,
+          "DoS": 1311,
+          "Reconn": 133,
+          "CommInj": 4,
+          "Backdoor": 3
+        }
+      },
+      "missing_categories": {
+        "train": [],
+        "validation": [],
+        "test": []
+      }
+    },
+    "source_row_index_sha256": {
+      "train": "b78e4ec4a98036692f9410bdd321c6aa22bd33466dda2a56ca71f9282f591c38",
+      "validation": "a31ba431b3b0c8694e51385f61b42ccd973878591e6fef5fe3bf8f0c9ad84c21",
+      "test": "c9f8ca9a6d26455b027a55e63d0178d70ad336091daab58b404c0fe573f5e285"
+    },
+    "samples": {
+      "data_kind": "wustl",
+      "n_train": 60000,
+      "n_validation": 20000,
+      "n_test": 20000,
+      "train_attack_prevalence": 0.07256666666666667,
+      "validation_attack_prevalence": 0.0726,
+      "test_attack_prevalence": 0.07255,
+      "target_fpr": 0.01
+    },
+    "calibration": {
+      "logistic_regression": {
+        "threshold": -1.2587090966068002,
+        "target_fpr": 0.01,
+        "validation_fpr": 0.009974121199051111,
+        "benign_validation_count": 18548,
+        "allowed_false_positives": 185,
+        "convention": "predict attack iff score > threshold; ties are benign"
+      },
+      "random_forest": {
+        "threshold": 0.006252808988764045,
+        "target_fpr": 0.01,
+        "validation_fpr": 0.009758464524477033,
+        "benign_validation_count": 18548,
+        "allowed_false_positives": 185,
+        "convention": "predict attack iff score > threshold; ties are benign"
+      },
+      "isolation_forest": {
+        "threshold": 0.7759596083157362,
+        "target_fpr": 0.01,
+        "validation_fpr": 0.009812378693120552,
+        "benign_validation_count": 18548,
+        "allowed_false_positives": 185,
+        "convention": "predict attack iff score > threshold; ties are benign"
+      }
+    },
+    "model_fitting": {
+      "logistic_regression": {
+        "fit_rows": 60000,
+        "normal_only": false,
+        "numeric_features": [
+          "Mean",
+          "Sport",
+          "Dport",
+          "SrcPkts",
+          "DstPkts",
+          "TotPkts",
+          "DstBytes",
+          "SrcBytes",
+          "TotBytes",
+          "SrcLoad",
+          "DstLoad",
+          "Load",
+          "SrcRate",
+          "DstRate",
+          "Rate",
+          "SrcLoss",
+          "DstLoss",
+          "Loss",
+          "pLoss",
+          "SrcJitter",
+          "DstJitter",
+          "SIntPkt",
+          "DIntPkt",
+          "Proto",
+          "Dur",
+          "TcpRtt",
+          "Sum",
+          "Min",
+          "Max",
+          "sDSb",
+          "sTtl",
+          "dTtl",
+          "SAppBytes",
+          "DAppBytes",
+          "TotAppByte",
+          "SynAck",
+          "sTos",
+          "SrcJitAct",
+          "DstJitAct"
+        ],
+        "categorical_features": [],
+        "estimator_parameters": {
+          "C": 1.0,
+          "class_weight": "balanced",
+          "dual": false,
+          "fit_intercept": true,
+          "intercept_scaling": 1,
+          "l1_ratio": 0.0,
+          "max_iter": 2000,
+          "n_jobs": null,
+          "penalty": "deprecated",
+          "random_state": 42,
+          "solver": "liblinear",
+          "tol": 0.0001,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "random_forest": {
+        "fit_rows": 60000,
+        "normal_only": false,
+        "numeric_features": [
+          "Mean",
+          "Sport",
+          "Dport",
+          "SrcPkts",
+          "DstPkts",
+          "TotPkts",
+          "DstBytes",
+          "SrcBytes",
+          "TotBytes",
+          "SrcLoad",
+          "DstLoad",
+          "Load",
+          "SrcRate",
+          "DstRate",
+          "Rate",
+          "SrcLoss",
+          "DstLoss",
+          "Loss",
+          "pLoss",
+          "SrcJitter",
+          "DstJitter",
+          "SIntPkt",
+          "DIntPkt",
+          "Proto",
+          "Dur",
+          "TcpRtt",
+          "Sum",
+          "Min",
+          "Max",
+          "sDSb",
+          "sTtl",
+          "dTtl",
+          "SAppBytes",
+          "DAppBytes",
+          "TotAppByte",
+          "SynAck",
+          "sTos",
+          "SrcJitAct",
+          "DstJitAct"
+        ],
+        "categorical_features": [],
+        "estimator_parameters": {
+          "bootstrap": true,
+          "ccp_alpha": 0.0,
+          "class_weight": "balanced_subsample",
+          "criterion": "gini",
+          "max_depth": 20,
+          "max_features": "sqrt",
+          "max_leaf_nodes": null,
+          "max_samples": null,
+          "min_impurity_decrease": 0.0,
+          "min_samples_leaf": 2,
+          "min_samples_split": 2,
+          "min_weight_fraction_leaf": 0.0,
+          "monotonic_cst": null,
+          "n_estimators": 100,
+          "n_jobs": 1,
+          "oob_score": false,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      },
+      "isolation_forest": {
+        "fit_rows": 55646,
+        "normal_only": true,
+        "numeric_features": [
+          "Mean",
+          "Sport",
+          "Dport",
+          "SrcPkts",
+          "DstPkts",
+          "TotPkts",
+          "DstBytes",
+          "SrcBytes",
+          "TotBytes",
+          "SrcLoad",
+          "DstLoad",
+          "Load",
+          "SrcRate",
+          "DstRate",
+          "Rate",
+          "SrcLoss",
+          "DstLoss",
+          "Loss",
+          "pLoss",
+          "SrcJitter",
+          "DstJitter",
+          "SIntPkt",
+          "DIntPkt",
+          "Proto",
+          "Dur",
+          "TcpRtt",
+          "Sum",
+          "Min",
+          "Max",
+          "sDSb",
+          "sTtl",
+          "dTtl",
+          "SAppBytes",
+          "DAppBytes",
+          "TotAppByte",
+          "SynAck",
+          "sTos",
+          "SrcJitAct",
+          "DstJitAct"
+        ],
+        "categorical_features": [],
+        "estimator_parameters": {
+          "bootstrap": false,
+          "contamination": "auto",
+          "max_features": 1.0,
+          "max_samples": "auto",
+          "n_estimators": 100,
+          "n_jobs": 1,
+          "random_state": 42,
+          "verbose": 0,
+          "warm_start": false
+        }
+      }
+    },
+    "permutation_importance": {
+      "partition": "validation",
+      "sample_rows": 1000,
+      "attack_prevalence": 0.076,
+      "sampling": "uniform without class balancing",
+      "repeats": 3,
+      "scoring": "average_precision",
+      "seed": 42,
+      "caveat": "Correlated predictors can mask importance; predictive association is not causal",
+      "status": "measured"
+    },
+    "versions": {
+      "iiot-ids-benchmark": "0.1.0",
+      "numpy": "2.5.3",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.9.1",
+      "matplotlib": "3.11.2",
+      "PyYAML": "6.0.3"
+    },
+    "hardware": {
+      "os": "Windows",
+      "architecture": "AMD64",
+      "processor": "AMD64 Family 25 Model 68 Stepping 1, AuthenticAMD",
+      "python": "3.13.7"
+    },
+    "timing": {
+      "clock": "perf_counter",
+      "warmup_batches": 1,
+      "repeats": 3,
+      "batch_size": 20000,
+      "aggregation": "median whole-test batch; preprocessing included",
+      "caveat": "Approximate offline batch throughput, not live packet latency"
+    },
+    "limitations": [
+      "Supervised models fit attack labels; Isolation Forest selects benign rows with labels",
+      "Shared feature audit uses labeled training data; IF pipeline fits benign rows only",
+      "Testbed flow data do not establish production or unseen-attack detection performance",
+      "Leakage review is heuristic; inspect feature semantics and inference availability",
+      "No tuning or threshold selection on test data; test FPR can exceed validation target"
+    ]
+  },
+  "quality_review": {
+    "source_url": "https://www.cse.wustl.edu/~jain/iiot2/ftp/wustl_iiot_2021.zip",
+    "archive_sha256": "d80ef62029ff8a494061668c3b47f69ddce1fdd7784dae7ca9bd3f3c58d0763b",
+    "file_audit": {
+      "rows": 1194464,
+      "negative_flow_intervals": 421,
+      "unparseable_time_rows": 0,
+      "target_disagreements": 0,
+      "missing_target": 0
+    },
+    "selected_negative_flow_intervals": 41,
+    "predictor_duplicate_audit": {
+      "validation": {
+        "rows": 20000,
+        "predictor_rows_also_in_train": 67,
+        "fraction": 0.00335
+      },
+      "test": {
+        "rows": 20000,
+        "predictor_rows_also_in_train": 77,
+        "fraction": 0.00385
+      }
+    },
+    "selected_predictor_hashes_with_conflicting_targets": 0,
+    "duplicate_definition": "Exact string values in final predictor columns; 64-bit pandas hashes",
+    "purpose": "Descriptive quality review; no threshold, split, feature or model tuning"
+  },
+  "metrics": [
+    {
+      "model": "logistic_regression",
+      "data_kind": "wustl",
+      "n_train": 60000,
+      "n_validation": 20000,
+      "n_test": 20000,
+      "train_attack_prevalence": 0.0725666666666666,
+      "validation_attack_prevalence": 0.0726,
+      "test_attack_prevalence": 0.07255,
+      "target_fpr": 0.01,
+      "fit_rows": 60000,
+      "fit_attack_prevalence": 0.0725666666666666,
+      "threshold": -1.2587090966068002,
+      "validation_fpr": 0.0099741211990511,
+      "test_precision": 0.892459826946848,
+      "test_recall": 0.9951757408683668,
+      "test_f1": 0.9410231345715216,
+      "test_fpr": 0.0093805595989002,
+      "test_pr_auc_average_precision": 0.9936269962200788,
+      "test_roc_auc": 0.99953764869393,
+      "tn": 18375,
+      "fp": 174,
+      "fn": 7,
+      "tp": 1444,
+      "training_seconds": 11.368704399999842,
+      "batch_inference_seconds": 0.5920255999990331,
+      "amortized_ms_per_flow": 0.0296012799999516,
+      "flows_per_second": 33782.32292663132
+    },
+    {
+      "model": "random_forest",
+      "data_kind": "wustl",
+      "n_train": 60000,
+      "n_validation": 20000,
+      "n_test": 20000,
+      "train_attack_prevalence": 0.0725666666666666,
+      "validation_attack_prevalence": 0.0726,
+      "test_attack_prevalence": 0.07255,
+      "target_fpr": 0.01,
+      "fit_rows": 60000,
+      "fit_attack_prevalence": 0.0725666666666666,
+      "threshold": 0.006252808988764,
+      "validation_fpr": 0.009758464524477,
+      "test_precision": 0.8809957498482088,
+      "test_recall": 1.0,
+      "test_f1": 0.9367333763718528,
+      "test_fpr": 0.0105666073642783,
+      "test_pr_auc_average_precision": 0.9999990513697508,
+      "test_roc_auc": 0.999999925690886,
+      "tn": 18353,
+      "fp": 196,
+      "fn": 0,
+      "tp": 1451,
+      "training_seconds": 11.22222679999686,
+      "batch_inference_seconds": 0.5239376999998058,
+      "amortized_ms_per_flow": 0.0261968849999902,
+      "flows_per_second": 38172.47737661828
+    },
+    {
+      "model": "isolation_forest",
+      "data_kind": "wustl",
+      "n_train": 60000,
+      "n_validation": 20000,
+      "n_test": 20000,
+      "train_attack_prevalence": 0.0725666666666666,
+      "validation_attack_prevalence": 0.0726,
+      "test_attack_prevalence": 0.07255,
+      "target_fpr": 0.01,
+      "fit_rows": 55646,
+      "fit_attack_prevalence": 0.0,
+      "threshold": 0.7759596083157362,
+      "validation_fpr": 0.0098123786931205,
+      "test_precision": 0.3723404255319149,
+      "test_recall": 0.0723638869745003,
+      "test_f1": 0.1211771494518176,
+      "test_fpr": 0.0095422933850881,
+      "test_pr_auc_average_precision": 0.632195442050606,
+      "test_roc_auc": 0.9820150580731296,
+      "tn": 18372,
+      "fp": 177,
+      "fn": 1346,
+      "tp": 105,
+      "training_seconds": 3.9298801999975694,
+      "batch_inference_seconds": 0.7697604999993928,
+      "amortized_ms_per_flow": 0.0384880249999696,
+      "flows_per_second": 25982.107421744524
+    }
+  ],
+  "per_attack_recall": [
+    {
+      "model": "logistic_regression",
+      "attack": "Backdoor",
+      "test_count": 3,
+      "detected": 1,
+      "recall": 0.3333333333333333
+    },
+    {
+      "model": "logistic_regression",
+      "attack": "CommInj",
+      "test_count": 4,
+      "detected": 4,
+      "recall": 1.0
+    },
+    {
+      "model": "logistic_regression",
+      "attack": "DoS",
+      "test_count": 1311,
+      "detected": 1311,
+      "recall": 1.0
+    },
+    {
+      "model": "logistic_regression",
+      "attack": "Reconn",
+      "test_count": 133,
+      "detected": 128,
+      "recall": 0.962406015037594
+    },
+    {
+      "model": "random_forest",
+      "attack": "Backdoor",
+      "test_count": 3,
+      "detected": 3,
+      "recall": 1.0
+    },
+    {
+      "model": "random_forest",
+      "attack": "CommInj",
+      "test_count": 4,
+      "detected": 4,
+      "recall": 1.0
+    },
+    {
+      "model": "random_forest",
+      "attack": "DoS",
+      "test_count": 1311,
+      "detected": 1311,
+      "recall": 1.0
+    },
+    {
+      "model": "random_forest",
+      "attack": "Reconn",
+      "test_count": 133,
+      "detected": 133,
+      "recall": 1.0
+    },
+    {
+      "model": "isolation_forest",
+      "attack": "Backdoor",
+      "test_count": 3,
+      "detected": 0,
+      "recall": 0.0
+    },
+    {
+      "model": "isolation_forest",
+      "attack": "CommInj",
+      "test_count": 4,
+      "detected": 0,
+      "recall": 0.0
+    },
+    {
+      "model": "isolation_forest",
+      "attack": "DoS",
+      "test_count": 1311,
+      "detected": 105,
+      "recall": 0.080091533180778
+    },
+    {
+      "model": "isolation_forest",
+      "attack": "Reconn",
+      "test_count": 133,
+      "detected": 0,
+      "recall": 0.0
+    }
+  ],
+  "confusion_matrices": {
+    "label_order": [
+      "normal",
+      "attack"
+    ],
+    "orientation": "rows=true, columns=predicted",
+    "models": {
+      "logistic_regression": [
+        [
+          18375,
+          174
+        ],
+        [
+          7,
+          1444
+        ]
+      ],
+      "random_forest": [
+        [
+          18353,
+          196
+        ],
+        [
+          0,
+          1451
+        ]
+      ],
+      "isolation_forest": [
+        [
+          18372,
+          177
+        ],
+        [
+          1346,
+          105
+        ]
+      ]
+    }
+  },
+  "permutation_importance": [
+    {
+      "feature": "pLoss",
+      "mean_ap_decrease": 7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "sTtl",
+      "mean_ap_decrease": 3.7007434154171876e-17,
+      "std_ap_decrease": 5.233641528945917e-17
+    },
+    {
+      "feature": "TotPkts",
+      "mean_ap_decrease": 3.7007434154171876e-17,
+      "std_ap_decrease": 5.233641528945917e-17
+    },
+    {
+      "feature": "Dport",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcPkts",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Sport",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Mean",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "DstJitAct",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "DstBytes",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "DstLoad",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcBytes",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "DstRate",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcRate",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Rate",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcLoad",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SIntPkt",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcLoss",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Loss",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcJitter",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "DstJitter",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Sum",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Proto",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Load",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "sTos",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "TotAppByte",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SrcJitAct",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Dur",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Max",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "Min",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "sDSb",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SAppBytes",
+      "mean_ap_decrease": 0.0,
+      "std_ap_decrease": 0.0
+    },
+    {
+      "feature": "SynAck",
+      "mean_ap_decrease": -3.7007434154171876e-17,
+      "std_ap_decrease": 1.3846913936850747e-16
+    },
+    {
+      "feature": "DAppBytes",
+      "mean_ap_decrease": -7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "TotBytes",
+      "mean_ap_decrease": -7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "DstLoss",
+      "mean_ap_decrease": -7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "dTtl",
+      "mean_ap_decrease": -7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "TcpRtt",
+      "mean_ap_decrease": -7.401486830834377e-17,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "DstPkts",
+      "mean_ap_decrease": -1.480297366166875e-16,
+      "std_ap_decrease": 1.0467283057891834e-16
+    },
+    {
+      "feature": "DIntPkt",
+      "mean_ap_decrease": -1.480297366166875e-16,
+      "std_ap_decrease": 1.0467283057891834e-16
+    }
+  ]
+}

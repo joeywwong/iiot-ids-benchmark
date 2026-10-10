@@ -1,8 +1,11 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
+import yaml
 
-from iiot_ids_benchmark.data import LEAKAGE_COLUMNS, load_dataset, map_labels
+from iiot_ids_benchmark.data import DEFAULT_LABEL_MAPPING, LEAKAGE_COLUMNS, load_dataset, map_labels
 from iiot_ids_benchmark.features import audit_features
 
 
@@ -15,7 +18,51 @@ def test_labels_are_explicit():
 
 
 @pytest.mark.parametrize(
-    "mapping", [{"normal": 2}, {"normal": True}, {}, {"Normal": 0, " normal ": 1}]
+    "label,expected",
+    [
+        ("normal", 0),
+        ("normal traffic", 0),
+        ("dos", 1),
+        ("dos traffic", 1),
+        ("reconn", 1),
+        ("reconnaissance", 1),
+        ("reconnaissance traffic", 1),
+        ("comminj", 1),
+        ("command injection", 1),
+        ("command injection traffic", 1),
+        ("backdoor", 1),
+        ("backdoor traffic", 1),
+    ],
+)
+@pytest.mark.parametrize("variant", [str.lower, str.upper, str.title, lambda s: f"  {s.upper()}  "])
+def test_all_supported_label_aliases(label, expected, variant):
+    assert map_labels(pd.Series([variant(label)])).tolist() == [expected]
+
+
+def test_yaml_defaults_match_authoritative_label_mapping():
+    config_path = Path(__file__).resolve().parents[1] / "configs" / "default.yaml"
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+    assert config["label_mapping"] == DEFAULT_LABEL_MAPPING
+
+
+@pytest.mark.parametrize(
+    "mapping",
+    [
+        {"normal": 2},
+        {"normal": True},
+        {},
+        {"Normal": 0, " normal ": 1},
+        {"Normal": 0, " normal ": 0},
+        {"normal": "0"},
+        {"normal": 0.0},
+        {"": 0},
+        {"   ": 0},
+        {1: 0},
+        [],
+        [0, 1],
+        0,
+        "normal",
+    ],
 )
 def test_bad_label_mapping(mapping):
     with pytest.raises(ValueError):
@@ -30,6 +77,7 @@ def test_schema_and_target_exclusions(synthetic_csv):
     data = load_dataset(synthetic_csv, max_rows=0)
     frame = data.frame.copy()
     frame["Label"] = data.y
+    frame["Target"] = data.y
     frame["unremarkable_name"] = 1 - data.y
     frame["CopiedTraffic"] = data.traffic
     frame["hidden_code"] = data.traffic.map(
@@ -48,6 +96,7 @@ def test_schema_and_target_exclusions(synthetic_csv):
                 *LEAKAGE_COLUMNS,
                 "Traffic",
                 "Label",
+                "Target",
                 "unremarkable_name",
                 "CopiedTraffic",
                 "constant",

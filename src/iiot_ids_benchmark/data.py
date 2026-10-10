@@ -13,6 +13,8 @@ LEAKAGE_COLUMNS = ("StartTime", "LastTime", "SrcAddr", "DstAddr", "sIpId", "dIpI
 DEFAULT_LABEL_MAPPING = {
     "normal": 0,
     "normal traffic": 0,
+    "reconn": 1,
+    "comminj": 1,
     **{
         name: 1
         for attack in ("dos", "reconnaissance", "command injection", "backdoor")
@@ -33,8 +35,13 @@ def label_key(value: str) -> str:
 
 def map_labels(traffic: pd.Series, mapping: dict | None = None) -> pd.Series:
     mapping = DEFAULT_LABEL_MAPPING if mapping is None else mapping
-    if not mapping or any(type(v) is not int or v not in (0, 1) for v in mapping.values()):
-        raise ValueError("label_mapping must explicitly map strings to integer 0 or 1")
+    if (
+        not isinstance(mapping, dict)
+        or not mapping
+        or any(not isinstance(k, str) or not label_key(k) for k in mapping)
+        or any(type(v) is not int or v not in (0, 1) for v in mapping.values())
+    ):
+        raise ValueError("label_mapping must explicitly map nonempty strings to integer 0 or 1")
     normalized = {label_key(k): v for k, v in mapping.items()}
     if len(normalized) != len(mapping):
         raise ValueError("label_mapping has duplicate normalized labels")

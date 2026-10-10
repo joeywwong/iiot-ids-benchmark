@@ -35,9 +35,12 @@ On Linux/macOS activate with `source .venv/bin/activate`.
 3. Inspect the CSV header and distinct `Traffic` values. The loader requires the
    original six identifier/time columns and `Traffic`; ambiguous/duplicate column
    names and unknown labels fail explicitly. Normalized spellings are accepted.
-   The default vocabulary is in `configs/default.yaml`; if the original file uses
-   different category spellings, document their semantics and edit `label_mapping`.
-   Unknown labels are never silently interpreted as attacks.
+   The original CSV labels are `normal`, `DoS`, `Reconn` (reconnaissance), `CommInj`
+   (command injection), and `Backdoor`. These and the supported long-form aliases
+   work with case/whitespace normalization. The vocabulary is in
+   `configs/default.yaml`; unknown labels still fail explicitly. The verified
+   archive extracts as `wustl_iiot_2021.csv` and also contains a binary `Target`
+   column, which is excluded from predictors.
 
 Dataset attribution: M. Zolanvari, M. A. Teixeira, L. Gupta, K. M. Khan, and R. Jain.
 “WUSTL-IIOT-2021 Dataset for IIoT Cybersecurity Research,” Washington University in
@@ -52,7 +55,7 @@ The data come from a research testbed, not production industrial infrastructure.
 After installing the package, replace the example filename with the extracted CSV:
 
 ```powershell
-python -m iiot_ids_benchmark.cli run --data data/raw/WUSTL-IIoT-2021.csv --output results/
+python -m iiot_ids_benchmark.cli run --data data/raw/wustl_iiot_2021.csv --output results/
 ```
 
 Defaults retain a **uniform, unbalanced subset of up to 100,000 rows**, with seed 42,
@@ -65,7 +68,7 @@ Categorical encoding caps each feature at 64 categories; missing numeric values
 and infinities are imputed. A full-data run requires more RAM and runtime:
 
 ```powershell
-python -m iiot_ids_benchmark.cli run --data data/raw/WUSTL-IIoT-2021.csv --config configs/default.yaml --max-rows 0 --rf-trees 100 --n-jobs 2 --output results/full/
+python -m iiot_ids_benchmark.cli run --data data/raw/wustl_iiot_2021.csv --config configs/default.yaml --max-rows 0 --rf-trees 100 --n-jobs 2 --output results/full/
 python -m iiot_ids_benchmark.cli run --help
 ```
 
@@ -115,10 +118,28 @@ Test labels never choose thresholds or model settings.
 
 ## Outputs and current evidence
 
-**No real dataset experiment has been run; real benchmark results are pending.**
-Synthetic fixtures verify implementation and cannot substantiate dataset performance.
-Real results must be inspected before publication; no metric table or performance
-chart is supplied as a measured WUSTL result here.
+On **2026-10-11 (Asia/Shanghai)**, an experiment used the original university CSV
+and the default uniform, unbalanced **100,000-row subset**, seed 42, with
+60,000 / 20,000 / 20,000 train / validation / test rows. The input contains
+1,194,464 rows; this was **not an all-rows training run**. The pipeline used
+**Traffic-stratified row splitting** because 41 sampled flow intervals had
+`LastTime < StartTime`; the strict chronological check rejected them.
+
+| Model | Test attack recall | Test FPR | Test precision | Average precision |
+| --- | ---: | ---: | ---: | ---: |
+| Logistic Regression | 99.52% | 0.938% | 89.25% | 0.993627 |
+| Random Forest | 100.00% | 1.057% | 88.10% | 0.999999 |
+| Isolation Forest | 7.24% | 0.954% | 37.23% | 0.632195 |
+
+These are measured offline results, not deployment guarantees. Random Forest's
+test FPR exceeds the validation target. Only three Backdoor and four CommInj
+observations appear in test, and 77 test rows (0.385%) have identical predictor
+values present in training. Related flows can still inflate results. Validation
+permutation importance was effectively zero for every feature, so it does not
+support a useful ranking in this run. See the
+[experiment record](docs/experiments/wustl_iiot_2021.md) for provenance, reproduction
+commands, full metrics, exclusions and limitations. Synthetic fixtures remain
+software verification only and are kept separate from these real results.
 
 Every successful run writes:
 
